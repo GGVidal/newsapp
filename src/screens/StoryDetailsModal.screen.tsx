@@ -7,24 +7,20 @@ import {
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
-import {useQuery, gql} from 'urql';
+import {useQuery} from 'urql';
+import {STORY_BY_ID} from '../queries/storiesById.graphql';
 import {RootStackParamList} from '../types';
-
-const STORY_BY_ID = gql`
-  query StoryById($id: ID!) {
-    story(id: $id) {
-      id
-      title
-      author
-      summary
-      text
-    }
-  }
-`;
+import {
+  StoryByIdQuery,
+  StoryByIdQueryVariables,
+} from '../graphql/__generated__/operationTypes';
 
 export const StoryDetailsModal: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'StoryDetailsModal'>>();
-  const [{data, fetching, error}] = useQuery({
+  const [{data, fetching, error}] = useQuery<
+    StoryByIdQuery,
+    StoryByIdQueryVariables
+  >({
     query: STORY_BY_ID,
     variables: {id: route.params.id},
   });
@@ -45,9 +41,9 @@ export const StoryDetailsModal: React.FC = () => {
   }
   return (
     <ScrollView style={styles.scrollView}>
-      <Text style={styles.author}>by {data.story.author}</Text>
-      <Text>{data.story.summary}</Text>
-      <Text>{data.story.text}</Text>
+      <Text style={styles.author}>by {data?.story?.author}</Text>
+      <Text>{data?.story?.summary}</Text>
+      <Text>{data?.story?.text}</Text>
     </ScrollView>
   );
 };

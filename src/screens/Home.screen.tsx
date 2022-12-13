@@ -11,20 +11,17 @@ import {
 } from 'react-native';
 import {RootStackParamList} from '../types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {gql, useQuery} from 'urql';
-
-const STORIES_QUERY = gql`
-  query AllStories {
-    stories {
-      id
-      title
-      summary
-    }
-  }
-`;
-
+import {useQuery} from 'urql';
+import {STORIES_QUERY} from '../queries/stories.graphql';
+import {
+  AllStoriesQuery,
+  AllStoriesQueryVariables,
+} from '../graphql/__generated__/operationTypes';
 export const HomeScreen: React.FC = () => {
-  const [{data, error, fetching}] = useQuery({query: STORIES_QUERY});
+  const [{data, error, fetching}] = useQuery<
+    AllStoriesQuery,
+    AllStoriesQueryVariables
+  >({query: STORIES_QUERY});
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -47,7 +44,7 @@ export const HomeScreen: React.FC = () => {
     <SafeAreaView>
       <FlatList
         contentContainerStyle={styles.flatlistContainer}
-        data={data.stories}
+        data={data?.stories}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({item}) => (
