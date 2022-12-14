@@ -17,11 +17,13 @@ import {
   AllStoriesQuery,
   AllStoriesQueryVariables,
 } from '../graphql/__generated__/operationTypes';
+
 export const HomeScreen: React.FC = () => {
   const [{data, error, fetching}] = useQuery<
     AllStoriesQuery,
     AllStoriesQueryVariables
   >({query: STORIES_QUERY});
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 

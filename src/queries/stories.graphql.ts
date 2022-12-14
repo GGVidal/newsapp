@@ -1,11 +1,12 @@
 import {gql} from 'urql';
+import {StorySummaryFields} from '../graphql/fragments.graphql';
 
 export const STORIES_QUERY = gql`
   query AllStories {
     stories {
-      id
-      title
-      summary
+      __typename
+      ...StorySummaryFields
     }
   }
+  ${StorySummaryFields}
 `;
