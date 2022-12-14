@@ -3,31 +3,29 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {RootStackParamList} from '../types';
-
-export const Story: React.FC = ({}) => {
+import {StorySummaryFieldsFragment} from '../graphql/__generated__/operationTypes';
+export const Story: React.FC<StorySummaryFieldsFragment> = ({
+  id,
+  summary,
+  title,
+}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <Pressable
       onPress={() =>
         navigation.navigate('StoryDetailsModal', {
-          id: item.id,
-          title: item.title,
+          id,
+          title,
         })
       }>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.summary}>{item.summary}</Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.summary}>{summary}</Text>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  flatlist: {
-    paddingHorizontal: 20,
-  },
-  flatlistContainer: {
-    paddingVertical: 20,
-  },
   title: {
     fontSize: 24,
     fontWeight: '400',

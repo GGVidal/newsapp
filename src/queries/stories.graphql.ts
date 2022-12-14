@@ -1,5 +1,5 @@
 import {gql} from 'urql';
-import {StorySummaryFields} from '../graphql/fragments.graphql';
+import {StorySummaryFields} from './fragments.graphql';
 
 export const STORIES_QUERY = gql`
   query AllStories {

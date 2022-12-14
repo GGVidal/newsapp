@@ -57,12 +57,30 @@ export type Story = {
   title: Scalars['String'];
 };
 
+export type AllBookmarksQueryVariables = Exact<{[key: string]: never}>;
+
+export type AllBookmarksQuery = {
+  __typename?: 'Query';
+  bookmarks?: Array<{
+    __typename?: 'Bookmark';
+    id: string;
+    story: {__typename?: 'Story'; id: string; title: string; summary: string};
+  }> | null;
+};
+
+export type StorySummaryFieldsFragment = {
+  __typename?: 'Story';
+  id: string;
+  title: string;
+  summary: string;
+};
+
 export type AllStoriesQueryVariables = Exact<{[key: string]: never}>;
 
 export type AllStoriesQuery = {
   __typename?: 'Query';
   stories?: Array<{
-    __typename?: 'Story';
+    __typename: 'Story';
     id: string;
     title: string;
     summary: string;
