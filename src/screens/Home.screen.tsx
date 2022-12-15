@@ -60,7 +60,12 @@ export const HomeScreen: React.FC = () => {
         keyExtractor={item => item.id}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({item}) => (
-          <Story id={item.id} title={item.title} summary={item.summary} />
+          <Story
+            id={item.id}
+            title={item.title}
+            bookmarkId={item.bookmarkId}
+            summary={item.summary}
+          />
         )}
       />
     </SafeAreaView>

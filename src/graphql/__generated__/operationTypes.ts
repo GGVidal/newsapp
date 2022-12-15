@@ -57,6 +57,19 @@ export type Story = {
   title: Scalars['String'];
 };
 
+export type AddBookmarkMutationVariables = Exact<{
+  storyId: Scalars['ID'];
+}>;
+
+export type AddBookmarkMutation = {
+  __typename?: 'Mutation';
+  addBookmark?: {
+    __typename?: 'Bookmark';
+    id: string;
+    story: {__typename?: 'Story'; id: string; title: string};
+  } | null;
+};
+
 export type AllBookmarksQueryVariables = Exact<{[key: string]: never}>;
 
 export type AllBookmarksQuery = {
@@ -64,7 +77,13 @@ export type AllBookmarksQuery = {
   bookmarks?: Array<{
     __typename?: 'Bookmark';
     id: string;
-    story: {__typename?: 'Story'; id: string; title: string; summary: string};
+    story: {
+      __typename?: 'Story';
+      id: string;
+      title: string;
+      summary: string;
+      bookmarkId?: string | null;
+    };
   }> | null;
 };
 
@@ -73,6 +92,7 @@ export type StorySummaryFieldsFragment = {
   id: string;
   title: string;
   summary: string;
+  bookmarkId?: string | null;
 };
 
 export type AllStoriesQueryVariables = Exact<{[key: string]: never}>;
@@ -84,6 +104,7 @@ export type AllStoriesQuery = {
     id: string;
     title: string;
     summary: string;
+    bookmarkId?: string | null;
   }> | null;
 };
 
