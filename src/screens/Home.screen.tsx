@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -16,12 +16,25 @@ import {
 import {Story} from '../components/Story';
 
 export const HomeScreen: React.FC = () => {
-  const [{data, error, fetching}] = useQuery<
+  const [{data, error, fetching}, refreshStories] = useQuery<
     AllStoriesQuery,
     AllStoriesQueryVariables
   >({query: STORIES_QUERY});
 
-  if (fetching) {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefreshStories = useCallback(() => {
+    setIsRefreshing(true);
+    refreshStories({requestPolicy: 'network-only'});
+  }, [refreshStories]);
+
+  useEffect(() => {
+    if (!fetching) {
+      setIsRefreshing(false);
+    }
+  }, [fetching]);
+
+  if (fetching && !isRefreshing) {
     return (
       <View>
         <ActivityIndicator color="grey" />
@@ -39,6 +52,8 @@ export const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView>
       <FlatList
+        refreshing={isRefreshing}
+        onRefresh={handleRefreshStories}
         contentContainerStyle={styles.flatlistContainer}
         data={data?.stories}
         style={styles.flatlist}
