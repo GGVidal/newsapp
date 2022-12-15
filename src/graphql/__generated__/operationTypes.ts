@@ -66,7 +66,13 @@ export type AddBookmarkMutation = {
   addBookmark?: {
     __typename?: 'Bookmark';
     id: string;
-    story: {__typename?: 'Story'; id: string; title: string};
+    story: {
+      __typename?: 'Story';
+      id: string;
+      title: string;
+      summary: string;
+      bookmarkId?: string | null;
+    };
   } | null;
 };
 
