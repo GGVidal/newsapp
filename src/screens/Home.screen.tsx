@@ -61,6 +61,7 @@ export const HomeScreen: React.FC = () => {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({item}) => (
           <Story
+            cta="add"
             id={item.id}
             title={item.title}
             bookmarkId={item.bookmarkId}

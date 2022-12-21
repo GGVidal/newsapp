@@ -20,10 +20,17 @@ import {
 } from '../graphql/__generated__/operationTypes';
 import {REMOVE_BOOKMARK_MUTATION} from '../queries/removeBookmarkMutation.graphql';
 
-export const Story: React.FC<StorySummaryFieldsFragment> = (
-  {id, summary, title, bookmarkId},
-  cta: 'add' | 'remove',
-) => {
+interface StoryProps extends StorySummaryFieldsFragment {
+  cta: 'add' | 'remove';
+}
+
+export const Story: React.FC<StoryProps> = ({
+  id,
+  summary,
+  title,
+  bookmarkId,
+  cta,
+}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -37,6 +44,7 @@ export const Story: React.FC<StorySummaryFieldsFragment> = (
     RemoveBookmarkMutationVariables
   >(REMOVE_BOOKMARK_MUTATION);
 
+  console.log('GG BOOKMARK ID', bookmarkId, isRemovingBookmark, cta)
   return (
     <Pressable
       onPress={() =>
@@ -54,8 +62,12 @@ export const Story: React.FC<StorySummaryFieldsFragment> = (
             <Text>Add Bookmark</Text>
           </Pressable>
         )}
-        {}
-        {isAddingBookmark && <ActivityIndicator />}
+        {bookmarkId && !isRemovingBookmark && cta === 'remove' && (
+          <Pressable onPress={() => removeBookmark({bookmarkId})}>
+            <Text>Remove Bookmark</Text>
+          </Pressable>
+        )}
+        {isAddingBookmark || (isRemovingBookmark && <ActivityIndicator />)}
       </View>
       <Text style={styles.summary}>{summary}</Text>
     </Pressable>

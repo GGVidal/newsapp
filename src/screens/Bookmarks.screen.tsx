@@ -58,7 +58,13 @@ export const BookmarksScreen: React.FC = () => {
       keyExtractor={item => item.id}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       renderItem={({item: {story}}) => (
-        <Story id={story.id} title={story.title} summary={story.summary} />
+        <Story
+          cta="remove"
+          id={story.id}
+          bookmarkId={story.bookmarkId}
+          title={story.title}
+          summary={story.summary}
+        />
       )}
     />
   );

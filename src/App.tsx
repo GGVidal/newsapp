@@ -14,6 +14,7 @@ import {
   createClient,
   dedupExchange,
   fetchExchange,
+  gql,
   Provider as UrqlProvider,
 } from 'urql';
 import {NavigationContainer} from '@react-navigation/native';
@@ -24,6 +25,8 @@ import schema from './graphql/graphql.schema.json';
 import {
   AddBookmarkMutation,
   AllBookmarksQuery,
+  RemoveBookmarkMutation,
+  RemoveBookmarkMutationVariables,
 } from './graphql/__generated__/operationTypes';
 import {BOOKMARKS_QUERY} from './queries/allBookmarks.graphql';
 
@@ -51,6 +54,38 @@ const client = createClient({
                   return data;
                 },
               );
+            }
+          },
+          removeBookmark: (
+            result: RemoveBookmarkMutation,
+            args: RemoveBookmarkMutationVariables,
+            cache,
+          ) => {
+            if (result.removeBookmark) {
+              let storyId = null;
+              cache.updateQuery(
+                {query: BOOKMARKS_QUERY},
+                (data: AllBookmarksQuery | null) => {
+                  if (data?.bookmarks) {
+                    storyId = data.bookmarks.find(
+                      item => item.id === args.bookmarkId,
+                    )?.story.id;
+                    data.bookmarks = data.bookmarks.filter(
+                      item => item.id !== args.bookmarkId,
+                    );
+                  }
+                  return data;
+                },
+              );
+              if (storyId) {
+                const fragment = gql`
+                  fragment _ on Story {
+                    id
+                    bookmarkId
+                  }
+                `;
+                cache.writeFragment(fragment, {id: storyId, bookmarkId: null});
+              }
             }
           },
         },
