@@ -101,6 +101,15 @@ export type StorySummaryFieldsFragment = {
   bookmarkId?: string | null;
 };
 
+export type RemoveBookmarkMutationVariables = Exact<{
+  bookmarkId: Scalars['ID'];
+}>;
+
+export type RemoveBookmarkMutation = {
+  __typename?: 'Mutation';
+  removeBookmark?: boolean | null;
+};
+
 export type AllStoriesQueryVariables = Exact<{[key: string]: never}>;
 
 export type AllStoriesQuery = {

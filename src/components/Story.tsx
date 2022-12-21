@@ -15,14 +15,15 @@ import {ADD_BOOKMARK_MUTATION} from '../queries/addBookmarkMutation.graphql';
 import {
   AddBookmarkMutation,
   AddBookmarkMutationVariables,
+  RemoveBookmarkMutation,
+  RemoveBookmarkMutationVariables,
 } from '../graphql/__generated__/operationTypes';
+import {REMOVE_BOOKMARK_MUTATION} from '../queries/removeBookmarkMutation.graphql';
 
-export const Story: React.FC<StorySummaryFieldsFragment> = ({
-  id,
-  summary,
-  title,
-  bookmarkId,
-}) => {
+export const Story: React.FC<StorySummaryFieldsFragment> = (
+  {id, summary, title, bookmarkId},
+  cta: 'add' | 'remove',
+) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -30,6 +31,12 @@ export const Story: React.FC<StorySummaryFieldsFragment> = ({
     AddBookmarkMutation,
     AddBookmarkMutationVariables
   >(ADD_BOOKMARK_MUTATION);
+
+  const [{fetching: isRemovingBookmark}, removeBookmark] = useMutation<
+    RemoveBookmarkMutation,
+    RemoveBookmarkMutationVariables
+  >(REMOVE_BOOKMARK_MUTATION);
+
   return (
     <Pressable
       onPress={() =>
@@ -42,11 +49,12 @@ export const Story: React.FC<StorySummaryFieldsFragment> = ({
         <Text style={styles.title}>
           {title} {bookmarkId ? '🔖' : ''}
         </Text>
-        {!bookmarkId && !isAddingBookmark && (
+        {!bookmarkId && !isAddingBookmark && cta === 'add' && (
           <Pressable onPress={() => addBookmark({storyId: id})}>
             <Text>Add Bookmark</Text>
           </Pressable>
         )}
+        {}
         {isAddingBookmark && <ActivityIndicator />}
       </View>
       <Text style={styles.summary}>{summary}</Text>
