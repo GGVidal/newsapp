@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 
 import {
@@ -32,7 +22,6 @@ import {
 } from './graphql/__generated__/operationTypes';
 import {BOOKMARKS_QUERY} from './queries/allBookmarks.graphql';
 import {useNetInfo} from '@react-native-community/netinfo';
-// import {AppOfflinePage} from './components/AppOffline';
 import {AppOfflineMessage} from './components/AppOfflineMessage';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {makeAsyncStorage} from '@urql/storage-rn';
@@ -147,10 +136,6 @@ const client = createClient({
 
 const App = () => {
   const {isConnected} = useNetInfo();
-
-  // if (!isConnected) {
-  //   return <AppOfflinePage />;
-  // }
   return (
     <SafeAreaProvider>
       <UrqlProvider value={client}>
