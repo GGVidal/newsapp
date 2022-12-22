@@ -22,7 +22,7 @@ import {
 } from './graphql/__generated__/operationTypes';
 import {BOOKMARKS_QUERY} from './queries/allBookmarks.graphql';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {AppOfflineMessage} from './components/AppOfflineMessage';
+import {AppOfflineMessage} from './components/AppOfflineMessage/AppOfflineMessage';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {makeAsyncStorage} from '@urql/storage-rn';
 import NetInfo from '@react-native-community/netinfo';
@@ -65,7 +65,7 @@ const storage = makeAsyncStorage({
   dataKey: 'my-app-data',
   metadataKey: 'my-app-metadata',
   maxAge: 5,
-});
+}); //config files
 
 const client = createClient({
   url: 'http://localhost:3000/graphql',
@@ -132,7 +132,7 @@ const client = createClient({
     offlineMutationExchange(),
     fetchExchange,
   ],
-});
+}); //config files
 
 const App = () => {
   const {isConnected} = useNetInfo();

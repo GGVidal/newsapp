@@ -12,7 +12,7 @@ import {
   AllBookmarksQuery,
   AllBookmarksQueryVariables,
 } from '../graphql/__generated__/operationTypes';
-import {Story} from '../components/Story';
+import {Story} from '../components/Story/Story';
 
 export const BookmarksScreen: React.FC = () => {
   const [{data, fetching, error}, refreshBookmarks] = useQuery<

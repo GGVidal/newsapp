@@ -13,7 +13,7 @@ import {
   AllStoriesQuery,
   AllStoriesQueryVariables,
 } from '../graphql/__generated__/operationTypes';
-import {Story} from '../components/Story';
+import {Story} from '../components/Story/Story';
 
 export const HomeScreen: React.FC = () => {
   const [{data, error, fetching}, refreshStories] = useQuery<
