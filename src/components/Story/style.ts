@@ -17,5 +17,5 @@ export const Title = styled.Text`
 export const Summary = styled.Text`
   font-size: 18px;
   color: grey;
-  margin-bottom: 30;
+  margin-bottom: 30px;
 `;

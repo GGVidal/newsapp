@@ -1,8 +1,8 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {BottomTabParamList} from '../types';
-import {BookmarksScreen} from './Bookmarks.screen';
-import {HomeScreen} from './Home.screen';
+import {BookmarksScreen} from './Bookmarks/Bookmarks.screen';
+import {HomeScreen} from './Home/Home.screen';
 
 const {Navigator, Screen} = createBottomTabNavigator<BottomTabParamList>();
 

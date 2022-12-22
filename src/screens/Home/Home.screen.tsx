@@ -1,19 +1,19 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  FlatList,
   SafeAreaView,
   Text,
   View,
   StyleSheet,
 } from 'react-native';
 import {useQuery} from 'urql';
-import {STORIES_QUERY} from '../queries/stories.graphql';
+import {STORIES_QUERY} from '../../queries/stories.graphql';
 import {
   AllStoriesQuery,
   AllStoriesQueryVariables,
-} from '../graphql/__generated__/operationTypes';
-import {Story} from '../components/Story/Story';
+} from '../../graphql/__generated__/operationTypes';
+import {Story} from '../../components/Story/Story';
+import {Separator, StyledFlatlist} from '../style';
 
 export const HomeScreen: React.FC = () => {
   const [{data, error, fetching}, refreshStories] = useQuery<
@@ -51,14 +51,13 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView>
-      <FlatList
+      <StyledFlatlist
         refreshing={isRefreshing}
         onRefresh={handleRefreshStories}
         contentContainerStyle={styles.flatlistContainer}
         data={data?.stories}
-        style={styles.flatlist}
         keyExtractor={item => item.id}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={() => <Separator />}
         renderItem={({item}) => (
           <Story
             cta="add"
@@ -74,15 +73,7 @@ export const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  flatlist: {
-    paddingHorizontal: 20,
-  },
   flatlistContainer: {
     paddingVertical: 20,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: 'black',
-    marginBottom: 14,
   },
 });
