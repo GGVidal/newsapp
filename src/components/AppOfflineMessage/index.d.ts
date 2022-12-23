@@ -1,4 +1,4 @@
-export interface ContainerProps {
+export type ContainerProps = {
   paddingBottom: number;
   marginTop: number;
-}
+};

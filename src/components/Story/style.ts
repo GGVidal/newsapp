@@ -11,7 +11,7 @@ export const Title = styled.Text`
   font-size: 24px;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 2;
+  letter-spacing: 2px;
 `;
 
 export const Summary = styled.Text`

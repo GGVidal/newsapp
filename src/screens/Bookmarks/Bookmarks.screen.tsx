@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, ListRenderItem} from 'react-native';
 import {useQuery} from 'urql';
 import {BOOKMARKS_QUERY} from '../../queries/allBookmarks.graphql';
 import {
   AllBookmarksQuery,
   AllBookmarksQueryVariables,
 } from '../../graphql/__generated__/operationTypes';
-import {Story} from '../../components/Story/Story';
-import {Separator, StyledFlatlist} from '../style';
+import {NewsFlatlist} from '../../components/NewsFlatlist/NewsFlatlist';
+import {NewsListItem} from '../../components/NewsListItem/NewsListItem';
 
 export const BookmarksScreen: React.FC = () => {
   const [{data, fetching, error}, refreshBookmarks] = useQuery<
@@ -42,30 +42,38 @@ export const BookmarksScreen: React.FC = () => {
       </View>
     );
   }
+  // interface BookmarksProps {
+  //   id: string | undefined;
+  //   story: {
+  //     id: string;
+  //     title: string;
+  //     summary: string;
+  //     bookmarkId?: string | null;
+  //   };
+  // }
+
+  // interface ListItemProps {
+  //   story?: StoryProps;
+  //   bookmark?: BookmarksProps;
+  // }
+
+  const renderItem: ListRenderItem<any> = ({item}) => {
+    const itemObj = {
+      id: item?.id,
+      title: item?.story?.title,
+      summary: item?.story?.summary,
+      bookmarkId: item?.story.bookmarkId,
+      cta: 'remove',
+    };
+    return <NewsListItem {...itemObj} />;
+  };
 
   return (
-    <StyledFlatlist
+    <NewsFlatlist
       refreshing={isRefreshing}
       onRefresh={handleRefreshBookmarks}
-      contentContainerStyle={styles.flatlistContainer}
       data={data?.bookmarks}
-      keyExtractor={item => item.id}
-      ItemSeparatorComponent={() => <Separator />}
-      renderItem={({item: {story}}) => (
-        <Story
-          cta="remove"
-          id={story.id}
-          bookmarkId={story.bookmarkId}
-          title={story.title}
-          summary={story.summary}
-        />
-      )}
+      renderItem={renderItem}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  flatlistContainer: {
-    paddingVertical: 20,
-  },
-});

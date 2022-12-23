@@ -54,6 +54,9 @@ export const Story: React.FC<StoryProps> = ({
       );
     }
   }, [removeBookmark, bookmarkId]);
+
+  console.log('GG COMPONENTS', id, summary, bookmarkId, title, cta);
+
   return (
     <Pressable
       onPress={() =>

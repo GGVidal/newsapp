@@ -4,7 +4,7 @@ import {
   SafeAreaView,
   Text,
   View,
-  StyleSheet,
+  ListRenderItem,
 } from 'react-native';
 import {useQuery} from 'urql';
 import {STORIES_QUERY} from '../../queries/stories.graphql';
@@ -13,7 +13,9 @@ import {
   AllStoriesQueryVariables,
 } from '../../graphql/__generated__/operationTypes';
 import {Story} from '../../components/Story/Story';
-import {Separator, StyledFlatlist} from '../style';
+import {StoryProps} from '../../components/Story';
+import {NewsFlatlist} from '../../components/NewsFlatlist/NewsFlatlist';
+import {NewsListItem} from '../../components/NewsListItem/NewsListItem';
 
 export const HomeScreen: React.FC = () => {
   const [{data, error, fetching}, refreshStories] = useQuery<
@@ -49,31 +51,24 @@ export const HomeScreen: React.FC = () => {
     );
   }
 
+  const renderItem: ListRenderItem<any> = ({item}) => {
+    const itemObj = {
+      id: item?.id,
+      title: item?.title,
+      summary: item?.summary,
+      bookmarkId: item?.bookmarkId,
+      cta: 'add',
+    };
+    return <NewsListItem {...itemObj} />;
+  };
   return (
     <SafeAreaView>
-      <StyledFlatlist
+      <NewsFlatlist
         refreshing={isRefreshing}
         onRefresh={handleRefreshStories}
-        contentContainerStyle={styles.flatlistContainer}
         data={data?.stories}
-        keyExtractor={item => item.id}
-        ItemSeparatorComponent={() => <Separator />}
-        renderItem={({item}) => (
-          <Story
-            cta="add"
-            id={item.id}
-            title={item.title}
-            bookmarkId={item.bookmarkId}
-            summary={item.summary}
-          />
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  flatlistContainer: {
-    paddingVertical: 20,
-  },
-});
