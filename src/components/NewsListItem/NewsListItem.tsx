@@ -1,13 +1,6 @@
 import React from 'react';
+import {NewsListItemProps} from '.';
 import {Story} from '../Story/Story';
-
-interface NewsListItemProps {
-  id: string;
-  title: string;
-  summary: string;
-  bookmarkId?: string | null;
-  cta: 'add' | 'remove';
-}
 
 export const NewsListItem: React.FC<NewsListItemProps> = ({
   id,

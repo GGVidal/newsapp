@@ -12,10 +12,10 @@ import {
   AllStoriesQuery,
   AllStoriesQueryVariables,
 } from '../../graphql/__generated__/operationTypes';
-import {Story} from '../../components/Story/Story';
 import {StoryProps} from '../../components/Story';
 import {NewsFlatlist} from '../../components/NewsFlatlist/NewsFlatlist';
 import {NewsListItem} from '../../components/NewsListItem/NewsListItem';
+import {NewsListItemProps} from '../../components/NewsListItem';
 
 export const HomeScreen: React.FC = () => {
   const [{data, error, fetching}, refreshStories] = useQuery<
@@ -51,8 +51,8 @@ export const HomeScreen: React.FC = () => {
     );
   }
 
-  const renderItem: ListRenderItem<any> = ({item}) => {
-    const itemObj = {
+  const renderItem: ListRenderItem<StoryProps> = ({item}) => {
+    const itemObj: NewsListItemProps = {
       id: item?.id,
       title: item?.title,
       summary: item?.summary,

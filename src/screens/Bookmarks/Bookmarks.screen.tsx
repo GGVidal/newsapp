@@ -8,6 +8,8 @@ import {
 } from '../../graphql/__generated__/operationTypes';
 import {NewsFlatlist} from '../../components/NewsFlatlist/NewsFlatlist';
 import {NewsListItem} from '../../components/NewsListItem/NewsListItem';
+import {BookmarksProps} from '.';
+import {NewsListItemProps} from '../../components/NewsListItem';
 
 export const BookmarksScreen: React.FC = () => {
   const [{data, fetching, error}, refreshBookmarks] = useQuery<
@@ -42,23 +44,8 @@ export const BookmarksScreen: React.FC = () => {
       </View>
     );
   }
-  // interface BookmarksProps {
-  //   id: string | undefined;
-  //   story: {
-  //     id: string;
-  //     title: string;
-  //     summary: string;
-  //     bookmarkId?: string | null;
-  //   };
-  // }
-
-  // interface ListItemProps {
-  //   story?: StoryProps;
-  //   bookmark?: BookmarksProps;
-  // }
-
-  const renderItem: ListRenderItem<any> = ({item}) => {
-    const itemObj = {
+  const renderItem: ListRenderItem<BookmarksProps> = ({item}) => {
+    const itemObj: NewsListItemProps = {
       id: item?.id,
       title: item?.story?.title,
       summary: item?.story?.summary,
